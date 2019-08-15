@@ -20,10 +20,10 @@ module DrLight
 
     private
 
-    attr_reader :exponential, :formatted_value, :formatted_deviance
+    attr_reader :exponential, :formatted_value, :formatted_deviance, :significant
 
     def format_string
-      [ '%<value>.2g' ].tap do |values|
+      [ "%<value>.#{significant}f" ].tap do |values|
         values << '(%<deviance>d)' unless deviance.zero?
         values << 'e%<exponential>d' unless exponential.zero?
       end.join
@@ -36,6 +36,7 @@ module DrLight
       @formatted_value = value.abs
       @formatted_deviance = deviance.abs
       @exponential = 0
+      @significant = 1
 
       while @formatted_value > 10
         @formatted_value /= 10.0
@@ -47,6 +48,13 @@ module DrLight
         @formatted_value *= 10
         @formatted_deviance *= 10
         @exponential -= 1
+      end
+
+      unless @formatted_deviance.zero?
+        while @formatted_deviance < 1
+          @formatted_deviance *= 10
+          @significant += 1
+        end
       end
 
       @formatted_value *= -1 if value.negative?
