@@ -10,7 +10,10 @@ module DrLight
     end
 
     def to_s
-      format('%.2ge%d', formatted_value, exponential)
+      format(
+        '%<value>.2ge%<exponential>d',
+        value: formatted_value, exponential: exponential
+      )
     end
 
     private
@@ -21,6 +24,7 @@ module DrLight
       @formatted_value || format_value
     end
 
+    # rubocop:disable Metrics/MethodLength:
     def format_value
       @formatted_value = value.abs
       @exponential = 0
@@ -38,5 +42,6 @@ module DrLight
       @formatted_value *= -1 if value.negative?
       @formatted_value
     end
+    # rubocop:enable Metrics/MethodLength:
   end
 end
