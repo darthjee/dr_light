@@ -23,19 +23,10 @@ module DrLight
     attr_reader :exponential, :formatted_value, :formatted_deviance
 
     def format_string
-      if exponential.zero?
-        if deviance.zero?
-          '%<value>.2g'
-        else
-          '%<value>.2g(%<deviance>d)'
-        end
-      else
-        if deviance.zero?
-          '%<value>.2ge%<exponential>d'
-        else
-          '%<value>.2g(%<deviance>d)e%<exponential>d'
-        end
-      end
+      [ '%<value>.2g' ].tap do |values|
+        values << '(%<deviance>d)' unless deviance.zero?
+        values << 'e%<exponential>d' unless exponential.zero?
+      end.join
     end
 
     # rubocop:disable Metrics/MethodLength:
