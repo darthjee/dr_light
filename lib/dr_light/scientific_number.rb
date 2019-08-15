@@ -10,14 +10,19 @@ module DrLight
     end
 
     def to_s
-      format(
-        '%<value>.2ge%<exponential>d',
-        value: formatted_value, exponential: exponential
-      )
+      formatted_value
+
+      if exponential.zero?
+        format('%<value>.2g', value: formatted_value)
+      else
+        format(
+          '%<value>.2ge%<exponential>d',
+          value: formatted_value, exponential: exponential
+        )
+      end
     end
 
     private
-
     attr_reader :exponential
 
     def formatted_value
