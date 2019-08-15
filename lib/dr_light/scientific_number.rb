@@ -10,7 +10,7 @@ module DrLight
     end
 
     def to_s
-      formatted_value
+      format_value
 
       if exponential.zero?
         format('%<value>.2g', value: formatted_value)
@@ -23,14 +23,13 @@ module DrLight
     end
 
     private
-    attr_reader :exponential
 
-    def formatted_value
-      @formatted_value || format_value
-    end
+    attr_reader :exponential, :formatted_value
 
     # rubocop:disable Metrics/MethodLength:
     def format_value
+      return if @formatted_value
+
       @formatted_value = value.abs
       @exponential = 0
 
