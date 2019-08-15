@@ -12,30 +12,31 @@ module DrLight
     def to_s
       format_value
 
-      if exponential.zero?
-        if deviance.zero?
-          format('%<value>.2g', value: formatted_value)
-        else
-          format('%<value>.2g(%<deviance>d)', value: formatted_value, deviance: formatted_deviance * 10)
-        end
-      else
-        if deviance.zero?
-          format(
-            '%<value>.2ge%<exponential>d',
-            value: formatted_value, exponential: exponential
-          )
-        else
-          format(
-            '%<value>.2g(%<deviance>d)e%<exponential>d',
-            value: formatted_value, exponential: exponential, deviance: formatted_deviance * 10
-          )
-        end
-      end
+      format(
+        format_string,
+        value: formatted_value, exponential: exponential, deviance: formatted_deviance * 10
+      )
     end
 
     private
 
     attr_reader :exponential, :formatted_value, :formatted_deviance
+
+    def format_string
+      if exponential.zero?
+        if deviance.zero?
+          '%<value>.2g'
+        else
+          '%<value>.2g(%<deviance>d)'
+        end
+      else
+        if deviance.zero?
+          '%<value>.2ge%<exponential>d'
+        else
+          '%<value>.2g(%<deviance>d)e%<exponential>d'
+        end
+      end
+    end
 
     # rubocop:disable Metrics/MethodLength:
     def format_value
