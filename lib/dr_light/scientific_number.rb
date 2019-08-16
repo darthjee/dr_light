@@ -23,7 +23,7 @@ module DrLight
     attr_reader :exponential, :formatted_value, :formatted_deviance, :significant
 
     def format_string
-      [ "%<value>.#{significant}f" ].tap do |values|
+      ["%<value>.#{significant}f"].tap do |values|
         values << '(%<deviance>d)' unless deviance.zero?
         values << 'e%<exponential>d' unless exponential.zero?
       end.join
@@ -38,17 +38,10 @@ module DrLight
       @exponential = 0
       @significant = 1
 
-      while @formatted_value > 10
-        @formatted_value /= 10.0
-        @formatted_deviance /= 10.0
-        @exponential += 1
-      end
-
-      while @formatted_value < 1
-        @formatted_value *= 10
-        @formatted_deviance *= 10
-        @exponential -= 1
-      end
+      o = order(@formatted_value)
+      @exponential += o
+      @formatted_value /= (10.0**o)
+      @formatted_deviance /= (10.0**o)
 
       unless @formatted_deviance.zero?
         while @formatted_deviance < 1
@@ -67,5 +60,9 @@ module DrLight
       @formatted_value
     end
     # rubocop:enable Metrics/MethodLength:
+
+    def order(number)
+      format('%e', number).gsub(/.*e/, '').to_i
+    end
   end
 end
