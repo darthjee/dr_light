@@ -55,6 +55,12 @@ module DrLight
           @formatted_deviance *= 10
           @significant += 1
         end
+
+        while @formatted_deviance.to_i.to_s.size > 1
+          @formatted_value /= 10.0
+          @formatted_deviance /= 10.0
+          @exponential += 1
+        end
       end
 
       @formatted_value *= -1 if value.negative?
