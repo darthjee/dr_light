@@ -14,7 +14,7 @@ module DrLight
 
       format(
         format_string,
-        value: formatted_value, exponential: exponential, deviance: formatted_deviance * 10
+        value: formatted_value, exponential: exponential, deviance: formatted_deviance * 10 + 0.5
       )
     end
 
@@ -44,15 +44,13 @@ module DrLight
       @formatted_deviance /= (10.0**o)
 
       unless @formatted_deviance.zero?
-        while @formatted_deviance < 1
-          @formatted_deviance *= 10
-          @significant += 1
-        end
-
-        while @formatted_deviance.to_i.to_s.size > 1
-          @formatted_value /= 10.0
-          @formatted_deviance /= 10.0
-          @exponential += 1
+        if order_difference < 0
+          @formatted_deviance /= (10.0 ** order_difference)
+          @significant -= order_difference
+        else
+          @formatted_value /= (10.0 ** order_difference)
+          @formatted_deviance /= (10.0 ** order_difference)
+          @exponential += order_difference
         end
       end
 
@@ -63,6 +61,10 @@ module DrLight
 
     def order(number)
       format('%e', number).gsub(/.*e/, '').to_i
+    end
+
+    def order_difference
+      @order_difeference ||= order(@formatted_deviance) - order(@formatted_value)
     end
   end
 end
