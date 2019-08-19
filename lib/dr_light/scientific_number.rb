@@ -18,13 +18,15 @@ module DrLight
 
       format(
         format_string,
-        value: formatted_value, exponential: exponential, deviance: formatted_deviance * 10 + 0.5
+        value: formatted_value, exponential: exponential,
+        deviance: formatted_deviance
       )
     end
 
     private
 
-    attr_reader :exponential, :formatted_value, :formatted_deviance, :significant
+    attr_reader :exponential, :significant,
+                :formatted_value, :formatted_deviance
 
     def format_string
       ["%<value>.#{significant}f"].tap do |values|
@@ -46,16 +48,16 @@ module DrLight
     end
 
     def normalize_value
-      o = order(@formatted_value)
-      @exponential += o
-      @formatted_value /= (10.0**o)
-      @formatted_deviance /= (10.0**o)
+      order = order_from(@formatted_value)
+      @exponential += order
+      @formatted_value /= (10.0**order)
+      @formatted_deviance /= (10.0**order)
     end
 
     def normalize_deviance
       return if @formatted_deviance.zero?
 
-      if order_difference < 0
+      if order_difference.negative?
         @formatted_deviance /= (10.0**order_difference)
         @significant -= order_difference
       else
@@ -63,14 +65,17 @@ module DrLight
         @formatted_deviance /= (10.0**order_difference)
         @exponential += order_difference
       end
+
+      @formatted_deviance = @formatted_deviance * 10 + 0.5
     end
 
-    def order(number)
-      format('%e', number).gsub(/.*e/, '').to_i
+    def order_from(number)
+      format('%<number>e', number: number).gsub(/.*e/, '').to_i
     end
 
     def order_difference
-      @order_difeference ||= order(@formatted_deviance) - order(@formatted_value)
+      @order_difference ||=
+        order_from(@formatted_deviance) - order_from(@formatted_value)
     end
   end
 end
