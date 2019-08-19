@@ -32,6 +32,7 @@ module DrLight
         values << 'e%<exponential>d' unless exponential.zero?
       end.join
     end
+
     def format_value
       return if @formatted_value
 
@@ -43,7 +44,6 @@ module DrLight
       @formatted_value *= -1 if value.negative?
       @formatted_value
     end
-    # rubocop:enable Metrics/MethodLength:
 
     def normalize_value
       o = order(@formatted_value)
@@ -53,15 +53,15 @@ module DrLight
     end
 
     def normalize_deviance
-      unless @formatted_deviance.zero?
-        if order_difference < 0
-          @formatted_deviance /= (10.0**order_difference)
-          @significant -= order_difference
-        else
-          @formatted_value /= (10.0**order_difference)
-          @formatted_deviance /= (10.0**order_difference)
-          @exponential += order_difference
-        end
+      return if @formatted_deviance.zero?
+
+      if order_difference < 0
+        @formatted_deviance /= (10.0**order_difference)
+        @significant -= order_difference
+      else
+        @formatted_value /= (10.0**order_difference)
+        @formatted_deviance /= (10.0**order_difference)
+        @exponential += order_difference
       end
     end
 
