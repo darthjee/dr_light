@@ -6,3 +6,8 @@ AllCops:
 
 RSpec/NestedGroups:
   Max: 4
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*_spec.rb'
+    - '*.gemspec'
