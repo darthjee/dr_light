@@ -57,12 +57,12 @@ module DrLight
     def normalize_deviance
       return if @formatted_deviance.zero?
 
+      @formatted_deviance /= (10.0**order_difference)
+
       if order_difference.negative?
-        @formatted_deviance /= (10.0**order_difference)
         @significant -= order_difference
       else
         @formatted_value /= (10.0**order_difference)
-        @formatted_deviance /= (10.0**order_difference)
         @exponential += order_difference
       end
 
