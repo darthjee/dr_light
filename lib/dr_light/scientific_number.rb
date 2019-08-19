@@ -7,6 +7,10 @@ module DrLight
     def initialize(value, deviance = 0)
       @value = value
       @deviance = deviance
+
+      @formatted_deviance = deviance.abs
+      @exponential = 0
+      @significant = 1
     end
 
     def to_s
@@ -28,36 +32,38 @@ module DrLight
         values << 'e%<exponential>d' unless exponential.zero?
       end.join
     end
-
-    # rubocop:disable Metrics/MethodLength:
     def format_value
       return if @formatted_value
 
       @formatted_value = value.abs
-      @formatted_deviance = deviance.abs
-      @exponential = 0
-      @significant = 1
 
-      o = order(@formatted_value)
-      @exponential += o
-      @formatted_value /= (10.0**o)
-      @formatted_deviance /= (10.0**o)
-
-      unless @formatted_deviance.zero?
-        if order_difference < 0
-          @formatted_deviance /= (10.0 ** order_difference)
-          @significant -= order_difference
-        else
-          @formatted_value /= (10.0 ** order_difference)
-          @formatted_deviance /= (10.0 ** order_difference)
-          @exponential += order_difference
-        end
-      end
+      normalize_value
+      normalize_deviance
 
       @formatted_value *= -1 if value.negative?
       @formatted_value
     end
     # rubocop:enable Metrics/MethodLength:
+
+    def normalize_value
+      o = order(@formatted_value)
+      @exponential += o
+      @formatted_value /= (10.0**o)
+      @formatted_deviance /= (10.0**o)
+    end
+
+    def normalize_deviance
+      unless @formatted_deviance.zero?
+        if order_difference < 0
+          @formatted_deviance /= (10.0**order_difference)
+          @significant -= order_difference
+        else
+          @formatted_value /= (10.0**order_difference)
+          @formatted_deviance /= (10.0**order_difference)
+          @exponential += order_difference
+        end
+      end
+    end
 
     def order(number)
       format('%e', number).gsub(/.*e/, '').to_i
