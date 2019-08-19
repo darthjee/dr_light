@@ -57,16 +57,15 @@ module DrLight
     def normalize_deviance
       return if @formatted_deviance.zero?
 
-      @formatted_deviance /= (10.0**order_difference)
-
       if order_difference.negative?
-        @significant -= order_difference
+        @formatted_value *= (10.0**order_difference)
+        @exponential -= order_difference
       else
-        @formatted_value /= (10.0**order_difference)
-        @exponential += order_difference
+        @significant += order_difference
       end
 
-      @formatted_deviance = @formatted_deviance * 10 + 0.5
+      @formatted_deviance *= 10 * (10.0**order_difference)
+      @formatted_deviance += 0.5
     end
 
     def order_from(number)
@@ -75,7 +74,7 @@ module DrLight
 
     def order_difference
       @order_difference ||=
-        order_from(@formatted_deviance) - order_from(@formatted_value)
+        order_from(@formatted_value) - order_from(@formatted_deviance)
     end
   end
 end
