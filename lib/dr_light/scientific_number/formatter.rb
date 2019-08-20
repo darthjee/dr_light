@@ -2,10 +2,17 @@
 
 module DrLight
   class ScientificNumber
+    # @author darthjee
+    # @api public
+    #
+    # Class responsible for formatting the values of
+    # {ScientificNumber}
     class Formatter
       attr_reader :exponential, :significant,
                   :value, :deviance
 
+      # @param value [Nuber] number to be exibed
+      # @param deviance [Number] deviance of number
       def initialize(value:, deviance:)
         @value = value
         @deviance = deviance
@@ -14,6 +21,10 @@ module DrLight
         format_value
       end
 
+      # Returns the string of the format expected for
+      # {ScientificNumber#to_s}
+      #
+      # @return [String]
       def format_string
         ["%<value>.#{significant}f"].tap do |values|
           values << '(%<deviance>d)' unless deviance.zero?
