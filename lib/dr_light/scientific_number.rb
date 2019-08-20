@@ -1,9 +1,15 @@
 # frozen_string_literal: true
 
 module DrLight
+  # @author darthjee
+  # @api public
+  #
+  # Number to be exibed in scientific number
   class ScientificNumber
     attr_reader :value, :deviance
 
+    # @param value [Nuber] number to be exibed
+    # @param deviance [Number] deviance of number
     def initialize(value, deviance = 0)
       @value = value
       @deviance = deviance
@@ -13,6 +19,7 @@ module DrLight
       @significant = 1
     end
 
+    # string representation of number
     def to_s
       format_value
 
