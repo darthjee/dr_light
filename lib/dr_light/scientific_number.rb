@@ -6,6 +6,7 @@ module DrLight
   #
   # Number to be exibed in scientific number
   class ScientificNumber
+    autoload :Formatter, 'dr_light/scientific_number/formatter'
     attr_reader :value, :deviance
 
     # @param value [Nuber] number to be exibed
@@ -13,75 +14,25 @@ module DrLight
     def initialize(value, deviance = 0)
       @value = value
       @deviance = deviance
-
-      @formatted_deviance = deviance.abs
-      @exponential = 0
-      @significant = 1
     end
 
     # string representation of number
     def to_s
-      format_value
-
       format(
-        format_string,
-        value: formatted_value, exponential: exponential,
-        deviance: formatted_deviance
+        formatter.format_string,
+        value: formatter.value,
+        exponential: formatter.exponential,
+        deviance: formatter.deviance
       )
     end
 
     private
 
-    attr_reader :exponential, :significant,
-                :formatted_value, :formatted_deviance
-
-    def format_string
-      ["%<value>.#{significant}f"].tap do |values|
-        values << '(%<deviance>d)' unless deviance.zero?
-        values << 'e%<exponential>d' unless exponential.zero?
-      end.join
-    end
-
-    def format_value
-      return if @formatted_value
-
-      @formatted_value = value.abs
-
-      normalize_value
-      normalize_deviance
-
-      @formatted_value *= -1 if value.negative?
-      @formatted_value
-    end
-
-    def normalize_value
-      order = order_from(@formatted_value)
-      @exponential += order
-      @formatted_value /= (10.0**order)
-      @formatted_deviance /= (10.0**order)
-    end
-
-    def normalize_deviance
-      return if @formatted_deviance.zero?
-
-      if order_difference.negative?
-        @formatted_value *= (10.0**order_difference)
-        @exponential -= order_difference
-      else
-        @significant += order_difference
-      end
-
-      @formatted_deviance *= 10 * (10.0**order_difference)
-      @formatted_deviance += 0.5
-    end
-
-    def order_from(number)
-      format('%<number>e', number: number).gsub(/.*e/, '').to_i
-    end
-
-    def order_difference
-      @order_difference ||=
-        order_from(@formatted_value) - order_from(@formatted_deviance)
+    def formatter
+      @formatter ||= Formatter.new(
+        value: value,
+        deviance: deviance
+      )
     end
   end
 end
