@@ -22,9 +22,25 @@ module DrLight
       # @return [String]
       def format_string
         ["%<value>.#{normalizer.significant}f"].tap do |values|
-          values << '(%<deviance>d)' unless normalizer.deviance.zero?
-          values << 'e%<exponential>d' unless normalizer.exponential.zero?
+          values << '(%<deviance>d)' if deviance?
+          values << 'e%<exponential>d' if exponential?
         end.join
+      end
+
+      private
+
+      # Checks if deviance should be present on the output
+      #
+      # @return [TrueClass,FalseClass]
+      def deviance?
+        !normalizer.deviance.zero?
+      end
+
+      # Checks if exponential should be present on the output
+      #
+      # @return [TrueClass,FalseClass]
+      def exponential?
+        !normalizer.exponential.zero?
       end
     end
   end

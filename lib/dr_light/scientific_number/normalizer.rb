@@ -4,6 +4,8 @@ module DrLight
   class ScientificNumber
     # @author darthjee
     # @api public
+    #
+    # Class responsible for normalizing the scientific number
     class Normalizer
       attr_reader :exponential, :significant,
                   :value, :deviance
