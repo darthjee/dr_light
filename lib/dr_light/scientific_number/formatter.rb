@@ -40,23 +40,22 @@ module DrLight
       end
 
       def normalize_value
-        order = order_from(@value)
-        @exponential += order
-        @value /= (10.0**order)
-        @deviance /= (10.0**order)
+        @exponential += value_order
+        @value /= value_order_multiplier
+        @deviance /= value_order_multiplier
       end
 
       def normalize_deviance
         return if @deviance.zero?
 
         if order_difference.negative?
-          @value *= (10.0**order_difference)
+          @value *= order_difference_multiplier
           @exponential -= order_difference
         else
           @significant += order_difference
         end
 
-        @deviance *= 10 * (10.0**order_difference)
+        @deviance *= 10 * order_difference_multiplier
         @deviance += 0.5
       end
 
@@ -67,6 +66,18 @@ module DrLight
       def order_difference
         @order_difference ||=
           order_from(@value) - order_from(@deviance)
+      end
+
+      def order_difference_multiplier
+        @order_difference_multiplier ||= 10.0**order_difference
+      end
+
+      def value_order
+        @value_order ||= order_from(@value)
+      end
+
+      def value_order_multiplier
+        @value_order_multiplier ||= 10.0**value_order
       end
     end
   end
