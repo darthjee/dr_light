@@ -62,8 +62,7 @@ module DrLight
       end
 
       def order_difference
-        @order_difference ||=
-          Utils.order(@value) - Utils.order(@deviance)
+        @order_difference ||= Utils.order_difference(@value, @deviance)
       end
 
       def order_difference_multiplier
