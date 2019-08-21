@@ -11,8 +11,8 @@ module DrLight
       attr_reader :exponential, :significant,
                   :value, :deviance
 
-      # @param value [Nuber] number to be exibed
-      # @param deviance [Number] deviance of number
+      # @param value [Numeric] number to be exibed
+      # @param deviance [Numeric] deviance of number
       def initialize(value:, deviance:)
         @value = value
         @deviance = deviance
@@ -61,13 +61,9 @@ module DrLight
         @deviance += 0.5
       end
 
-      def order_from(number)
-        format('%<number>e', number: number).gsub(/.*e/, '').to_i
-      end
-
       def order_difference
         @order_difference ||=
-          order_from(@value) - order_from(@deviance)
+          Utils.order(@value) - Utils.order(@deviance)
       end
 
       def order_difference_multiplier
@@ -75,7 +71,7 @@ module DrLight
       end
 
       def value_order
-        @value_order ||= order_from(@value)
+        @value_order ||= Utils.order(@value)
       end
 
       def value_order_multiplier
