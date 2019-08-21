@@ -56,6 +56,7 @@ module DrLight
 
       def normalize_deviance
         return if @deviance.zero?
+
         normalize_difference
         @deviance *= 10 * order_difference_multiplier
         @deviance += 0.5
