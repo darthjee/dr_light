@@ -2,7 +2,7 @@
 
 module DrLight
   # @author darthjee
-  # @ai public
+  # @api public
   #
   # Module with utility functions
   module Utils
@@ -18,6 +18,8 @@ module DrLight
       format('%<number>e', number: number).gsub(/.*e/, '').to_i
     end
 
+    # Returns the order difference between 2 numbers
+    #
     # @param first_number [Numeric] number to be analiyzed
     # @param second_number [Numeric] number to be analiyzed
     #

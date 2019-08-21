@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # @author darthjee
-# @ai public
+# @api public
 #
 # Pack of science usefull classes
 module DrLight

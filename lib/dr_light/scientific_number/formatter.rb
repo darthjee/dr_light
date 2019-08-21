@@ -8,16 +8,15 @@ module DrLight
     # Class responsible for formatting the values of
     # {ScientificNumber}
     class Formatter
-      attr_reader :normalizer
-
       # @param value [Numeric] number to be exibed
       # @param deviance [Numeric] deviance of number
       def initialize(normalizer)
         @normalizer = normalizer
       end
 
-      # Returns the string of the format expected for
-      # {ScientificNumber#to_s}
+      # Returns the string of the format expected
+      #
+      # @see ScientificNumber#to_s
       #
       # @return [String]
       def format_string
@@ -29,6 +28,18 @@ module DrLight
 
       private
 
+      attr_reader :normalizer
+      # @method normalizer
+      # @private
+      # @api private
+      #
+      # Number normalizer
+      #
+      # @return [Normalizer]
+
+      # @private
+      # @api private
+      #
       # Checks if deviance should be present on the output
       #
       # @return [TrueClass,FalseClass]
@@ -36,6 +47,9 @@ module DrLight
         !normalizer.deviance.zero?
       end
 
+      # @private
+      # @api private
+      #
       # Checks if exponential should be present on the output
       #
       # @return [TrueClass,FalseClass]
