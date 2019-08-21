@@ -3,7 +3,7 @@
 module DrLight
   class ScientificNumber
     # @author darthjee
-    # @api public
+    # @api private
     #
     # Class responsible for formatting the values of
     # {ScientificNumber}

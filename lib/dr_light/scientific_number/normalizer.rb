@@ -3,7 +3,7 @@
 module DrLight
   class ScientificNumber
     # @author darthjee
-    # @api public
+    # @api private
     #
     # Class responsible for normalizing the scientific number
     class Normalizer
