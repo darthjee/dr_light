@@ -45,16 +45,18 @@ module DrLight
         @deviance /= value_order_multiplier
       end
 
-      def normalize_deviance
-        return if @deviance.zero?
-
+      def normalize_difference
         if order_difference.negative?
           @value *= order_difference_multiplier
           @exponential -= order_difference
         else
           @significant += order_difference
         end
+      end
 
+      def normalize_deviance
+        return if @deviance.zero?
+        normalize_difference
         @deviance *= 10 * order_difference_multiplier
         @deviance += 0.5
       end
