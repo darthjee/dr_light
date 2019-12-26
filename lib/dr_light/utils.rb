@@ -31,6 +31,9 @@ module DrLight
     # @param second_number [Numeric] number to be analiyzed
     #
     # @return [Integer]
+    #
+    # @example
+    #   DrLight::Utils.order_difference(-10, 0.1) # returns 2
     def self.order_difference(first_number, second_number)
       order(first_number) - order(second_number)
     end

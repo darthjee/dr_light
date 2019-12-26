@@ -16,4 +16,16 @@ describe DrLight::Utils do
       end
     end
   end
+
+  describe '.order_difference' do
+    describe 'yard' do
+      subject(:difference) do
+        described_class.order_difference(-10, 0.1)
+      end
+
+      it 'returns order difference between numbers' do
+        expect(difference).to eq(2)
+      end
+    end
+  end
 end
