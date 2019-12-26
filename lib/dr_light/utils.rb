@@ -14,6 +14,13 @@ module DrLight
     # @param number [Numeric] number to be analyzed
     #
     # @return [Integer]
+    #
+    # @example Negative big number
+    #   DrLight::Utils.order(-100) # returns 2
+    # @example Positive small number
+    #   DrLight::Utils.order(0.01) # returns -2
+    # @example Zero
+    #   DrLight::Utils.order(0) # returns 0
     def self.order(number)
       format('%<number>e', number: number).gsub(/.*e/, '').to_i
     end
