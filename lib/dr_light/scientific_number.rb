@@ -33,6 +33,10 @@ module DrLight
 
     # string representation of number
     #
+    # @example
+    #   number = DrLight::ScientificNumber.new(0.42, 0.01)
+    #   number.to_s # returns '4.20(10)e-1'
+    #
     # @return [String]
     def to_s
       format(
