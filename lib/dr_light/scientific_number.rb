@@ -6,8 +6,23 @@ module DrLight
   #
   # Number to be exibed in scientific number
   class ScientificNumber
-    autoload :Formatter, 'dr_light/scientific_number/formatter'
+    autoload :Formatter,  'dr_light/scientific_number/formatter'
+    autoload :Normalizer, 'dr_light/scientific_number/normalizer'
+
     attr_reader :value, :deviance
+    # @!method value
+    # @api public
+    #
+    # The number value (average)
+    #
+    # @return [Numeric]
+
+    # @!method deviance
+    # @api public
+    #
+    # The deviance from the average (imprecision)
+    #
+    # @return [Numeric]
 
     # @param value [Nuber] number to be exibed
     # @param deviance [Number] deviance of number
@@ -17,19 +32,41 @@ module DrLight
     end
 
     # string representation of number
+    #
+    # @example
+    #   number = DrLight::ScientificNumber.new(0.42, 0.01)
+    #   number.to_s # returns '4.20(10)e-1'
+    #
+    # @return [String]
     def to_s
       format(
         formatter.format_string,
-        value: formatter.value,
-        exponential: formatter.exponential,
-        deviance: formatter.deviance
+        value: normalizer.value,
+        exponential: normalizer.exponential,
+        deviance: normalizer.deviance
       )
     end
 
     private
 
+    # @private
+    # @api private
+    #
+    # String formatter
+    #
+    # @return [Formatter]
     def formatter
-      @formatter ||= Formatter.new(
+      @formatter ||= Formatter.new(normalizer)
+    end
+
+    # @private
+    # @api private
+    #
+    # Values normalizer
+    #
+    # @return [Normalizer]
+    def normalizer
+      @normalizer ||= Normalizer.new(
         value: value,
         deviance: deviance
       )

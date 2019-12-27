@@ -10,5 +10,5 @@ DrLight
 
 Yard Documentation
 -------------------
-https://www.rubydoc.info/gems/dr_light/0.0.1
+https://www.rubydoc.info/gems/dr_light/0.0.2
 
