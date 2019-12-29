@@ -48,6 +48,8 @@ module DrLight
     end
 
     def deviance_distance(other)
+      other = self.class.new(other) unless other.is_a?(self.class)
+
       difference = other.value - value
       return 0 if difference.zero?
 

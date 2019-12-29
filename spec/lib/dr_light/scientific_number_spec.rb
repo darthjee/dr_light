@@ -441,6 +441,40 @@ fdescribe DrLight::ScientificNumber do
   end
 
   describe 'deviance_distance?' do
+    context 'when passing a number' do
+      context 'when passing a number smaller, but within 1 deviance' do
+        let(:other) { 111 }
+
+        it do
+          expect(number.deviance_distance(other)).to be_positive
+        end
+
+        it 'returns deviance distance' do
+          expect(number.deviance_distance(other)).to eq(0.9)
+        end
+      end
+
+      context 'when passing a number bigger, but within 2 deviance' do
+        let(:other) { 139 }
+
+        it do
+          expect(number.deviance_distance(other)).to be_positive
+        end
+
+        it 'returns deviance distance' do
+          expect(number.deviance_distance(other)).to eq(1.9)
+        end
+      end
+
+      context 'when passing a number equal' do
+        let(:other) { 120 }
+
+        it do
+          expect(number.deviance_distance(other)).to be_zero
+        end
+      end
+    end
+
     context 'when passing a scientific number without deviance' do
       context 'when passing a number smaller, but within 1 deviance' do
         let(:other) { described_class.new(111) }
