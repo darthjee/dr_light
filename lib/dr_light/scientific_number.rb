@@ -50,6 +50,14 @@ module DrLight
       )
     end
 
+    # Calculates the distance to another number in deviances
+    #
+    # the deviance will be a composition of both numbers
+    # deviances
+    #
+    # @see DevianceDistance
+    #
+    # @return [Float] always positive number
     def deviance_distance(other)
       DevianceDistance.new(self, other).to_f
     end

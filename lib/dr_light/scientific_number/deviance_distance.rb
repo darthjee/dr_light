@@ -9,8 +9,8 @@ module DrLight
     # Class Responsible for calculating distance between 2 numbers
     # in number of deviances
     #
-    # The combined deviance of numbers n1(d1), n2(d2) is
-    # d = sqrt(d1 ** 2 + d2 ** 2)
+    # The combined deviance of numbers n1(d1), n2(d2)
+    # is d = sqrt(d1 ** 2 + d2 ** 2)
     #
     # @example With scientific number
     #   number = DrLight::ScientificNumber.new(100, 3)
@@ -33,7 +33,7 @@ module DrLight
     #   distance.to_f    # returns 3
     class DevianceDistance
       # @param number [ScientificNumber] first number
-      # @param second [ScientificNumber,Number] second number
+      # @param other [ScientificNumber,Number] second number
       def initialize(number, other)
         @number = number
 
@@ -46,21 +46,44 @@ module DrLight
 
       # Calculates the distance of numbers in deviances
       #
-      # @return [Number] always positive number
+      # @return [Float] always positive number
       def to_f
         return 0 if difference.zero?
 
-        difference.abs / deviance
+        difference / deviance
       end
 
       private
 
       attr_reader :number, :other
+      # @method number
+      #
+      # first number
+      #
+      # @return [ScientificNumber]
 
+      # @method other
+      #
+      # second_number
+      #
+      # @return [ScientificNumber]
+
+      # @private
+      # Raw difference between two numbers
+      #
+      # @return [Float] always positive number
       def difference
-        @difference ||= other.value - number.value
+        @difference ||= (other.value - number.value).abs
       end
 
+      # @privte
+      #
+      # Combined deviances
+      #
+      # Combined deviances of n1(d1) and n2(d2)
+      # is d = sqrt(d1 ** 2 + d2 ** 2)
+      #
+      # @return [Float] always positive number
       def deviance
         @deviance ||= Math.sqrt(
           number.deviance**2 + other.deviance**2
