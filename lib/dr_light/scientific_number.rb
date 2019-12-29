@@ -26,9 +26,9 @@ module DrLight
 
     # @param value [Nuber] number to be exibed
     # @param deviance [Number] deviance of number
-    def initialize(value, deviance = 0)
-      @value = value
-      @deviance = deviance
+    def initialize(value, deviance = nil)
+      @value    = value.to_f
+      @deviance = deviance.to_f
     end
 
     # string representation of number
@@ -45,6 +45,13 @@ module DrLight
         exponential: normalizer.exponential,
         deviance: normalizer.deviance
       )
+    end
+
+    def deviance_distance(other)
+      difference = other.value - value
+      return 0 if difference.zero?
+
+      difference.abs / deviance.to_f
     end
 
     private

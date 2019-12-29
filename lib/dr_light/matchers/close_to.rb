@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DrLight
   module Matchers
     class CloseTo < RSpec::Matchers::BuiltIn::BaseMatcher
@@ -5,8 +7,7 @@ module DrLight
         @expected = expected
       end
 
-      def matches?(actual)
-      end
+      def matches?(actual); end
 
       private
 
