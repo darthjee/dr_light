@@ -51,7 +51,9 @@ module DrLight
       difference = other.value - value
       return 0 if difference.zero?
 
-      difference.abs / deviance.to_f
+      dev = Math.sqrt(deviance**2 + other.deviance**2)
+
+      difference.abs / dev.to_f
     end
 
     private
