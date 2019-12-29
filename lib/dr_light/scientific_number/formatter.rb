@@ -8,8 +8,8 @@ module DrLight
     # Class responsible for formatting the values of
     # {ScientificNumber}
     class Formatter
-      # @param value [Numeric] number to be exibed
-      # @param deviance [Numeric] deviance of number
+      # @param normalizer [Normalizer] normalizer with number
+      #   and deviance information
       def initialize(normalizer)
         @normalizer = normalizer
       end
