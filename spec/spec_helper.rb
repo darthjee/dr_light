@@ -9,6 +9,7 @@ end
 SimpleCov.start 'gem'
 
 require 'dr_light'
+require 'dr_light/matchers'
 require 'pry-nav'
 
 support_files = File.expand_path('spec/support/**/*.rb')
@@ -20,4 +21,5 @@ RSpec.configure do |config|
   config.filter_run_excluding :integration unless ENV['ALL']
 
   config.order = 'random'
+  config.include DrLight::Matchers
 end
