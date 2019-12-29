@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-fdescribe DrLight::ScientificNumber do
+describe DrLight::ScientificNumber do
   subject(:number) { described_class.new(value, deviance) }
 
   let(:value)    { 120 }
