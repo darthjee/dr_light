@@ -6,6 +6,9 @@ module DrLight
   #
   # Number to be exibed in scientific number
   class ScientificNumber
+    autoload :DevianceDistance,
+             'dr_light/scientific_number/deviance_distance'
+
     autoload :Formatter,  'dr_light/scientific_number/formatter'
     autoload :Normalizer, 'dr_light/scientific_number/normalizer'
 
@@ -48,14 +51,7 @@ module DrLight
     end
 
     def deviance_distance(other)
-      other = self.class.new(other) unless other.is_a?(self.class)
-
-      difference = other.value - value
-      return 0 if difference.zero?
-
-      dev = Math.sqrt(deviance**2 + other.deviance**2)
-
-      difference.abs / dev.to_f
+      DevianceDistance.new(self, other).to_f
     end
 
     private
