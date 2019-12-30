@@ -19,6 +19,7 @@ rules:
       - DrLight::ScientificNumber#value
       - DrLight::ScientificNumber#deviance
       - DrLight::ScientificNumber#initialize
+      - DrLight::ScientificNumber::DevianceDistance#initialize
       - DrLight::ScientificNumber::Formatter#initialize
       - DrLight::ScientificNumber::Normalizer#initialize
   ReturnTag:
@@ -28,6 +29,7 @@ rules:
     enabled: true
     exclude:
       - DrLight::ScientificNumber#initialize
+      - DrLight::ScientificNumber::DevianceDistance#initialize
       - DrLight::ScientificNumber::Formatter#initialize
       - DrLight::ScientificNumber::Normalizer#initialize
   Summary::Length:

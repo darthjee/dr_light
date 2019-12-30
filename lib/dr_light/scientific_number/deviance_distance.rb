@@ -57,12 +57,16 @@ module DrLight
 
       attr_reader :number, :other
       # @method number
+      # @api private
+      # @private
       #
       # first number
       #
       # @return [ScientificNumber]
 
       # @method other
+      # @api private
+      # @private
       #
       # second_number
       #
