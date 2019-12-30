@@ -55,6 +55,17 @@ module DrLight
     # the deviance will be a composition of both numbers
     # deviances
     #
+    # @example With Number
+    #   number = DrLight::ScientificNumber.new(100, 3)
+    #
+    #   number.deviance_distance(115)   # returns 5
+    #
+    # @example With scientifica number
+    #   number = DrLight::ScientificNumber.new(100, 3)
+    #   other  = DrLight::ScientificNumber.new(115, 4)
+    #
+    #   number.deviance_distance(other)   # returns 3
+    #
     # @see DevianceDistance
     #
     # @return [Float] always positive number
