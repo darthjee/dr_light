@@ -28,6 +28,7 @@ rules:
   Summary::Presence:
     enabled: true
     exclude:
+      - DrLight::Matchers::CloseTo#initialize
       - DrLight::ScientificNumber#initialize
       - DrLight::ScientificNumber::DevianceDistance#initialize
       - DrLight::ScientificNumber::Formatter#initialize
