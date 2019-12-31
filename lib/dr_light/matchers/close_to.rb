@@ -17,10 +17,6 @@ module DrLight
         distance <= 1.0
       end
 
-      def supports_block_expectations?
-        false
-      end
-
       def description
         "be close to #{expected}"
       end

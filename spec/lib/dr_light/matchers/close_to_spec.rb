@@ -2,13 +2,13 @@
 
 require 'spec_helper'
 
-fdescribe DrLight::Matchers::CloseTo do
+describe DrLight::Matchers::CloseTo do
   subject(:matcher) { described_class.new(expected, deviance) }
 
   let(:expected) { 120 }
   let(:deviance) { 10 }
 
-  describe 'matches?' do
+  describe '#matches?' do
     context 'when passing a number' do
       context 'when passing a number smaller, but within 1 deviance' do
         let(:number) { 111 }
@@ -143,6 +143,53 @@ fdescribe DrLight::Matchers::CloseTo do
           expect(matcher).to be_matches(number)
         end
       end
+    end
+  end
+
+  describe '#description' do
+    it 'returns description' do
+      expect(matcher.description)
+        .to eq('be close to 1.20(10)e2')
+    end
+  end
+
+  describe '#failure_message_for_should' do
+    it 'returns failure message' do
+      expect(matcher.failure_message_for_should)
+        .to eq(
+          'expected  to be close to 1.20(10)e2 ' \
+          'but was 12.0 deviances far away'
+        )
+    end
+  end
+
+  describe '#failure_message' do
+    it 'returns failure message' do
+      expect(matcher.failure_message)
+        .to eq(
+          'expected  to be close to 1.20(10)e2 ' \
+          'but was 12.0 deviances far away'
+        )
+    end
+  end
+
+  describe '#failure_message_for_should_not' do
+    it 'returns failure message' do
+      expect(matcher.failure_message_for_should_not)
+        .to eq(
+          'expected  not to be close to 1.20(10)e2 but ' \
+          'was only 12.0 deviances far away'
+        )
+    end
+  end
+
+  describe '#failure_message_when_negated' do
+    it 'returns failure message' do
+      expect(matcher.failure_message_when_negated)
+        .to eq(
+          'expected  not to be close to 1.20(10)e2 but ' \
+          'was only 12.0 deviances far away'
+        )
     end
   end
 end
