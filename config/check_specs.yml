@@ -1,3 +1,4 @@
 ignore:
   - lib/dr_light.rb
   - lib/dr_light/version.rb
+  - lib/dr_light/matchers.rb

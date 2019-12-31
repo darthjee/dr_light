@@ -5,12 +5,13 @@ require 'spec_helper'
 shared_examples 'value normalized' do |order:, expctd_order: 1, devnc_fctr: 0|
   let(:multiplier)          { 0.1 * 10**order }
   let(:expected_multiplier) { 10**expctd_order }
+  let(:random)              { Random.rand * 0.9 + 0.1 }
   let(:deviance) do
     Random.rand * multiplier * devnc_fctr
   end
 
   context 'when value is positive' do
-    let(:value) { Random.rand * multiplier }
+    let(:value) { random * multiplier }
     let(:range) do
       [0.1 * expected_multiplier, expected_multiplier]
     end
@@ -21,7 +22,7 @@ shared_examples 'value normalized' do |order:, expctd_order: 1, devnc_fctr: 0|
   end
 
   context 'when value is positive' do
-    let(:value) { -1 * Random.rand * multiplier }
+    let(:value) { -1 * random * multiplier }
     let(:range) do
       [-expected_multiplier, -0.1 * expected_multiplier]
     end

@@ -6,6 +6,9 @@ module DrLight
   #
   # Number to be exibed in scientific number
   class ScientificNumber
+    autoload :DevianceDistance,
+             'dr_light/scientific_number/deviance_distance'
+
     autoload :Formatter,  'dr_light/scientific_number/formatter'
     autoload :Normalizer, 'dr_light/scientific_number/normalizer'
 
@@ -26,9 +29,9 @@ module DrLight
 
     # @param value [Nuber] number to be exibed
     # @param deviance [Number] deviance of number
-    def initialize(value, deviance = 0)
-      @value = value
-      @deviance = deviance
+    def initialize(value, deviance = nil)
+      @value    = value.to_f
+      @deviance = deviance.to_f
     end
 
     # string representation of number
@@ -45,6 +48,29 @@ module DrLight
         exponential: normalizer.exponential,
         deviance: normalizer.deviance
       )
+    end
+
+    # Calculates the distance to another number in deviances
+    #
+    # the deviance will be a composition of both numbers
+    # deviances
+    #
+    # @example With Number
+    #   number = DrLight::ScientificNumber.new(100, 3)
+    #
+    #   number.deviance_distance(115)   # returns 5
+    #
+    # @example With scientifica number
+    #   number = DrLight::ScientificNumber.new(100, 3)
+    #   other  = DrLight::ScientificNumber.new(115, 4)
+    #
+    #   number.deviance_distance(other)   # returns 3
+    #
+    # @see DevianceDistance
+    #
+    # @return [Float] always positive number
+    def deviance_distance(other)
+      DevianceDistance.new(self, other).to_f
     end
 
     private
