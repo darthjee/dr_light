@@ -80,7 +80,7 @@ module DrLight
         @difference ||= (other.value - number.value).abs
       end
 
-      # @privte
+      # @private
       #
       # Combined deviances
       #
